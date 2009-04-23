@@ -1,0 +1,3 @@
+01_use-external-libx86.patch
+02_fix-parsing-of-OEM-descriptions.patch
+03_map-BIOS-with-PROT_WRITE.patch
