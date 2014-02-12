@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Evgeni Golov <evgeni@debian.org>
 Build-Depends: debhelper (>= 5), quilt (>= 0.40), libx86-dev
-Standards-Version: 3.8.1
+Standards-Version: 3.9.2
 Homepage: http://dev.gentoo.org/~spock/projects/uvesafb/
 
 Package: v86d

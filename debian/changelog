@@ -1,3 +1,20 @@
+v86d (0.1.10-1) unstable; urgency=low
+
+  * New upstream release
+    + Fixes CVE-2011-1070: failure to validate netlink message sender
+    + Closes: #619404
+  * Droping patches imported from upstream:
+    + 02_fix-parsing-of-OEM-descriptions.patch
+    + 03_map-BIOS-with-PROT_WRITE.patch
+  * Standards-Version: 3.9.2
+  * Source Format 1.0.
+  * Do not include random kernel headers in CFLAGS.
+    + Adding 02_dont-include-kernel.patch.
+    + Closes: #525415
+  * Add manual_add_modules uvesafb to the initramfs-hook (thanks Ubuntu!)
+
+ -- Evgeni Golov <evgeni@debian.org>  Tue, 26 Apr 2011 10:00:06 +0200
+
 v86d (0.1.9-1) unstable; urgency=low
 
   * New upstream release. (Closes: #507325)

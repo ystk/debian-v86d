@@ -18,4 +18,6 @@ esac
 
 . /usr/share/initramfs-tools/hook-functions
 
+manual_add_modules uvesafb
+
 copy_exec /sbin/v86d

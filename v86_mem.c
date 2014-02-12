@@ -44,7 +44,7 @@ void *vptr(u32 addr) {
 		return (mem_vram + addr - VRAM_BASE);
 	else if (addr < IVTBDA_SIZE)
 		return (mem_low + addr);
-	else if (addr >= ebda_start && addr < ebda_start + ebda_size)
+	else if (mem_ebda && addr >= ebda_start && addr < ebda_start + ebda_size)
 		return (mem_ebda + addr - ebda_start + ebda_diff);
 	else {
 		ulog(LOG_WARNING, "Trying to access an unsupported memory region at %x", addr);
@@ -293,7 +293,13 @@ int v86_mem_init(void)
 	}
 	vbios_size = tmp[2] * 0x200;
 	ulog(LOG_DEBUG, "VBIOS at %5x-%5x\n", VBIOS_BASE, VBIOS_BASE + vbios_size - 1);
-	mem_vbios = map_file(NULL, vbios_size, PROT_READ,
+
+	/*
+	 * The Video BIOS and the System BIOS have to be mapped with PROT_WRITE.
+	 * There is at least one case where mapping them without this flag causes
+	 * a segfault during the emulation: https://bugs.gentoo.org/show_bug.cgi?id=245254
+	 */
+	mem_vbios = map_file(NULL, vbios_size, PROT_READ | PROT_WRITE,
 							MAP_SHARED, "/dev/mem", VBIOS_BASE);
 
 	if (!mem_vbios) {
@@ -303,7 +309,7 @@ int v86_mem_init(void)
 	}
 
 	/* Map the system BIOS */
-	mem_sbios = map_file(NULL, SBIOS_SIZE, PROT_READ,
+	mem_sbios = map_file(NULL, SBIOS_SIZE, PROT_READ | PROT_WRITE,
 					MAP_SHARED, "/dev/mem", SBIOS_BASE);
 	if (!mem_sbios) {
 		ulog(LOG_ERR, "Failed to mmap the System BIOS as %5x.", SBIOS_BASE);
